@@ -6,7 +6,7 @@ Its a big calculator
 
 ## Running
 - Download Repo
-- Have Python 3.10+ (See [link](#requirements))
+- Have Python 3.10+ (See [Requirements](#requirements))
 - `python main.py`
 
 ## Requirements
