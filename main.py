@@ -6,6 +6,8 @@ import math
 if sys.version_info[0] < 3: raise EnvironmentError('Needs Python 3.10+')
 if sys.version_info[0] >=3 and sys.version_info[1] < 9: raise EnvironmentError('Needs Python 3.10+ (Program uses match/case)')
 
+import math
+
 class SquareRootSimplifier:
 	def __init__(self):
 		self.getNumbers()
@@ -157,6 +159,32 @@ class RandomNumberGenerator:
 		print('***' *7)
 		print('Answer: ' + str(self.random))
 
+class PythagoreanTheoremCalculator:
+	def __init__(self):
+		self.getABC()
+		self.calculateHypotinuse()
+		self.output()
+	
+	def getABC(self):
+		print('a²+b²=c²')
+		self.toSolveFor = input('Solve for: ')
+		if self.toSolveFor not in ['a', 'b', 'c']: raise ValueError('Not a, b, or c')
+
+		if self.toSolveFor != 'a': self.a = int(input('a = '))
+		if self.toSolveFor != 'b': self.b = int(input('b = '))
+		if self.toSolveFor != 'c': self.c = int(input('c = '))
+	
+	def calculateHypotinuse(self):
+		if self.toSolveFor == 'a': self.ans = math.sqrt(self.c**2-self.b**2)
+		if self.toSolveFor == 'b': self.ans = math.sqrt(self.c**2-self.a**2)
+		if self.toSolveFor == 'c': self.ans = math.sqrt(self.a**2+self.b**2)
+
+	def output(self):
+		print('\033[H\033[J', end='')
+		print('***' *7)
+		print('Answer: ' + str(self.ans))
+
+
 class ChoiceMenu:
 	def __init__(self):
 		while True:
@@ -175,19 +203,19 @@ class ChoiceMenu:
 			'	4) GCF Calculator \n' +
 			'	5) LCM Calculator \n' +
 			'	6) Random Number Generator \n' +
-			'	7) Exit \n'
+			'	7) Pythagorean Theorem Calculator \n' +
+			'	8) Exit \n'
 		)
 		print('***' *7)
 
 	def getChoice(self):
 		self.choice = input()
 		try: self.choice = int(self.choice)
-		except: 
-			if self.choice not in ['Q', 'q']: raise ValueError('Not a number')
+		except: raise ValueError('Not a number')
 	
 	def evaluateChoice(self):
 		print('\033[H\033[J', end='')
-		if self.choice != 7: print('***' *7)
+		if self.choice != 8: print('***' *7)
 
 		match self.choice:
 			case 1: SquareRootSimplifier()
@@ -196,7 +224,8 @@ class ChoiceMenu:
 			case 4: GCFCalculator()
 			case 5: LCMCalculator()
 			case 6: RandomNumberGenerator()
-			case 7: sys.exit()
+			case 7: PythagoreanTheoremCalculator()
+			case 8: sys.exit()
 			case _: raise ValueError('Invalid Option')
 	
 	def postCalculation(self):
