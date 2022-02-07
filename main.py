@@ -1,10 +1,9 @@
 import random
 import sys
-
 import math
 
 if sys.version_info[0] < 3: raise EnvironmentError('Needs Python 3.10+')
-if sys.version_info[0] >=3 and sys.version_info[1] < 9: raise EnvironmentError('Needs Python 3.10+ (Program uses match/case)')
+if sys.version_info[0] >=3 and sys.version_info[1] < 10: raise EnvironmentError('Needs Python 3.10+ (Program uses match/case)')
 
 import math
 
@@ -43,7 +42,7 @@ class SquareRootSimplifier:
 	def outputSimplified(self):
 		print('\033[H\033[J', end='')
 		print('***' *7)
-		print('Answer: ' + str(int(self.factor)) + '*sqrt(' + str(int(self.squareOut)) + ')' + ' or ' + str(self.squareMath))
+		print(f'Answer: {int(self.factor)}*sqrt({int(self.squareOut)}) or {self.squareMath}')
 
 class AverageCalculator:
 	def __init__(self):
@@ -77,7 +76,7 @@ class AverageCalculator:
 	def output(self):
 		print('\033[H\033[J', end='')
 		print('***' *7)
-		print('Answer: ' + str(self.total))
+		print(f'Answer: {self.total}')
 
 class FourFunctionCalculator:
 	def __init__(self):
@@ -94,7 +93,7 @@ class FourFunctionCalculator:
 	def outputMath(self):
 		print('\033[H\033[J', end='')
 		print('***' *7)
-		print('Answer: ' + str(self.output))
+		print(f'Answer: {self.output}')
 
 class GCFCalculator:
 	def __init__(self):
@@ -115,7 +114,7 @@ class GCFCalculator:
 	def outputGCF(self):
 		print('\033[H\033[J', end='')
 		print('***' *7)
-		print('Answer: ' + str(self.output))
+		print(f'Answer: {self.output}')
 
 class LCMCalculator:
 	def __init__(self):
@@ -136,7 +135,7 @@ class LCMCalculator:
 	def outputLCM(self):
 		print('\033[H\033[J', end='')
 		print('***' *7)
-		print('Answer: ' + str(self.lcm))
+		print(f'Answer: {self.lcm}')
 
 class RandomNumberGenerator:
 	def __init__(self):
@@ -157,32 +156,45 @@ class RandomNumberGenerator:
 	def outputRandom(self):
 		print('\033[H\033[J', end='')
 		print('***' *7)
-		print('Answer: ' + str(self.random))
+		print(f'Answer: {self.random}')
 
 class PythagoreanTheoremCalculator:
 	def __init__(self):
 		self.getABC()
-		self.calculateHypotinuse()
+		self.calculateABC()
 		self.output()
 	
 	def getABC(self):
-		print('a²+b²=c²')
+		print('a² + b² = c²')
 		self.toSolveFor = input('Solve for: ')
 		if self.toSolveFor not in ['a', 'b', 'c']: raise ValueError('Not a, b, or c')
 
 		if self.toSolveFor != 'a': self.a = int(input('a = '))
 		if self.toSolveFor != 'b': self.b = int(input('b = '))
 		if self.toSolveFor != 'c': self.c = int(input('c = '))
+		if (
+				self.toSolveFor not in ['b', 'c'] and 
+				(self.b > self.c)
+			) or (
+				self.toSolveFor not in ['a', 'c'] and 
+				(self.a > self.c)
+			): raise ValueError('"c" is not the greatest value')
 	
-	def calculateHypotinuse(self):
+	def calculateABC(self):
 		if self.toSolveFor == 'a': self.ans = math.sqrt(self.c**2-self.b**2)
 		if self.toSolveFor == 'b': self.ans = math.sqrt(self.c**2-self.a**2)
 		if self.toSolveFor == 'c': self.ans = math.sqrt(self.a**2+self.b**2)
 
+		if self.toSolveFor == 'a': self.infoOut = f'b² = {self.b**2} \nc² = {self.c**2} \nc² - b² = {self.c**2-self.b**2}'
+		if self.toSolveFor == 'b': self.infoOut = f'a² = {self.a**2} \nc² = {self.c**2} \nc² - a² = {self.c**2-self.a**2}'
+		if self.toSolveFor == 'c': self.infoOut = f'a² = {self.a**2} \nb² = {self.b**2} \na² + b² = {self.a**2+self.b**2}'
+
 	def output(self):
 		print('\033[H\033[J', end='')
 		print('***' *7)
-		print('Answer: ' + str(self.ans))
+		print(self.infoOut)
+		print('***' *7)
+		print(f'Answer: {self.ans}')
 
 
 class ChoiceMenu:
