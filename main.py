@@ -59,9 +59,7 @@ class AverageCalculator:
 		self.output()
 	
 	def calculateInputs(self):
-		self.total = 0
-		for i in self.to_avg:
-			self.total += i
+		self.total = sum(self.to_avg)
 		
 		self.total /= len(self.to_avg)
 	
@@ -76,7 +74,7 @@ class FourFunctionCalculator:
 	
 	def evalmath(self):
 		try: self.answer = eval(self.math)
-		except: raise ValueError('Invalid Math')
+		except SyntaxError: raise ValueError('Invalid Math')
 
 	
 	def output(self):
@@ -108,7 +106,7 @@ class LCMCalculator:
 		return f'Answer: {self.lcm}'
 
 class RandomNumberGenerator:
-	def __init__(self, rangeStart: float, rangeEnd: float):
+	def __init__(self, rangeStart: int, rangeEnd: int):
 		self.rangeStart = rangeStart
 		self.rangeEnd = rangeEnd
 		self.getRandom()
@@ -167,7 +165,7 @@ class ArithmeticSequenceUtils:
 		print(
 			'	1) Calculate Common Difference (Given one index and its value) \n' +
 			'	2) Calculate Common Difference (Given two indexes and their values) \n' +
-			'	3) Calculate for an index (Given a₁ and Common Difference)'
+			'	3) Calculate for an index (Given a(1) and Common Difference)'
 		)
 		print(linebr(end=''))
 
@@ -192,22 +190,22 @@ class ArithmeticSequenceUtils:
 		
 		match self.input:
 			case 1:
-				index = float(input('Enter the index (Value "n" in "a(n) = x") '))
+				index = int(input('Enter the index (Value "n" in "a(n) = x") '))
 				index_value = float(input(f'Enter the value of the index (Value "x" in "a({index}) = x") '))
 
 				self.method = self.oneIndex(index, index_value)
 			case 2:
-				index1 = float(input('Enter the first index (Value "n" in "a(n) = x") '))
+				index1 = int(input('Enter the first index (Value "n" in "a(n) = x") '))
 				index1_value = float(input(f'Enter the value of the first index (Value "x" in "a({index1}) = x") '))
 
-				index2 = float(input('Enter the second index (Value "n" in "a(n) = x") '))
+				index2 = int(input('Enter the second index (Value "n" in "a(n) = x") '))
 				index2_value = float(input(f'Enter the value of the second index (Value "x" in "a({index2}) = x") '))
 
 				self.method = self.twoIndexes(index1, index1_value, index2, index2_value)
 			case 3:
-				index = float(input('Enter the index to solve for (Value "n" in "a(n) = x") '))
+				int = int(input('Enter the index to solve for (Value "n" in "a(n) = x") '))
 				index1 = float(input('Enter the first index in the sequence (Value "x" in "a(1) = x") '))
-				cd = input('Enter the common difference (Value "d" in "a(n) = a(1) + d(n-1)") ')
+				cd = float(input('Enter the common difference (Value "d" in "a(n) = a(1) + d(n-1)") '))
 
 				self.method = self.calculateIndex(index, index1, cd)
 			case _: raise ValueError('Invalid Input')
@@ -217,12 +215,13 @@ class ArithmeticSequenceUtils:
 		self.out += self.method.output()
 
 		try: self.method2
-		except NameError: self.method2 = '_dummy'
+		except AttributeError: self.method2 = '_dummy'
 		if isinstance(self.method2, self.calculateIndex):
 			self.out += f'{endl}a({self.method2.index}) = {self.method2.output()[8:]}'
 	
 	def output(self):
 		return self.out
+	
 	class oneIndex:
 		def __init__(self, index: float, index_value: float):
 			self.index = index
@@ -264,6 +263,91 @@ class ArithmeticSequenceUtils:
 		def output(self):
 			return f'Answer: {self.indexValue}'
 
+class GeometricSequenceUtils:
+	def __init__(self):
+		print(lineclr(), end='')
+		print(linebr(beg=''))
+		print(
+			'	1) Calculate Common Ratio (Given a(x) and a(x-1)) \n' +
+			'	2) Calculate for an index (Given a(1) and Common Ratio)'
+		)
+		print(linebr(end=''))
+
+		try: self.input = float(input())
+		except ValueError: raise ValueError('Not a Number')
+
+		self.evaluateInput()
+
+		if True in [isinstance(self.method, i) for i in [self.twoIndexes]]:
+			indexyn = input('Would you like to calculate an index? [y/n] ')
+			if indexyn.lower() in ['y', 'yes']: 
+				index = int(input('Enter the index to find '))
+				index1 = float(input('Enter the first index in the sequence (Value "x" in "a(1) = x") '))
+
+				self.method2 = self.calculateIndex(index, index1, float(self.method.output()[8:]))
+		
+		self.generateOutput()
+	
+	def evaluateInput(self):
+		print(lineclr())
+		print(linebr(beg=''))
+		
+		match self.input:
+			case 1:
+				index1 = int(input('Enter the index (Value "n" in "a(n) = x") '))
+				index1_value = float(input(f'Enter the value of the index (Value "x" in "a({index1}) = x") '))
+
+				index2_value = float(input(f'Enter the index (Value "x" in "a({index1-1}) = x") '))
+
+				self.method = self.twoIndexes(index1, index1_value, index2_value)
+			case 2:
+				index = int(input('Enter the index to solve for (Value "n" in "a(n) = x") '))
+				index1 = float(input('Enter the first index in the sequence (Value "x" in "a(1) = x") '))
+				cd = float(input('Enter the common difference (Value "r" in "a(n) = a(1)*(r)ⁿ⁻¹") '))
+
+				self.method = self.calculateIndex(index, index1, cd)
+			case _: raise ValueError('Invalid Input')
+
+	def generateOutput(self):
+		self.out = ''
+		self.out += self.method.output()
+
+		try: self.method2
+		except AttributeError: self.method2 = '_dummy'
+		if isinstance(self.method2, self.calculateIndex):
+			self.out += f'{endl}a({self.method2.index}) = {self.method2.output()[8:]}'
+	
+	def output(self):
+		return self.out
+	
+	class twoIndexes:
+		def __init__(self, index1: int, index1_value: float, index2_value: float):
+			self.index1 = index1
+			self.index2 = self.index1-1
+			self.index1_value = index1_value
+			self.index2_value = index2_value
+			self.calculateCommonRatio()
+		
+		def calculateCommonRatio(self):
+			self.cr = (self.index2_value / self.index1_value) ** (1 / (self.index2 - self.index1))
+
+		def output(self):
+			return f'Answer: {self.cr}'
+	
+	class calculateIndex:
+		def __init__(self, index: int, index1: float, cr: float):
+			self.index = index
+			self.index1 = index1
+			self.cr = cr
+
+			self.calculateIndex()
+		
+		def calculateIndex(self):
+			self.indexValue = self.index1 * (self.cr) ** (self.index - 1)
+		
+		def output(self):
+			return f'Answer: {self.indexValue}'
+
 class ChoiceMenu:
 	def __init__(self):
 		while True:
@@ -284,18 +368,24 @@ class ChoiceMenu:
 			'	6) Random Number Generator \n' +
 			'	7) Pythagorean Theorem Calculator \n' +
 			'	8) Arithmetic Sequence \n' +
-			'	9) Exit'
+			'	9) Geometric Sequence \n' +
+			'	Q) Exit'
 		)
 		print(linebr(end=''))
 
 	def getChoice(self):
 		self.choice = input()
-		try: self.choice = float(self.choice)
-		except: raise ValueError('Not a number')
+		try: self.choice = int(self.choice)
+		except ValueError:
+			if self.choice.lower() in ['q', 'quit']:
+				print(lineclr())
+				sys.exit()
+			else:
+				raise ValueError('Not a number')
 	
 	def evaluateChoice(self):
 		print(lineclr(), end='')
-		if self.choice != 9: print(linebr(beg=''))
+		if self.choice != 10: print(linebr(beg=''))
 
 		match self.choice:
 			case 1:
@@ -331,23 +421,23 @@ class ChoiceMenu:
 				self.method = FourFunctionCalculator(input('Input math using +, -, *, /, and ** for exponents. '))
 			case 4:
 				try: num1 = float(input('First Number: '))
-				except: raise ValueError('Not a Number')
+				except ValueError: raise ValueError('Not a Number')
 				try: num2 = float(input('Second Number: '))
-				except: raise ValueError('Not a Number') 
+				except ValueError: raise ValueError('Not a Number') 
 				
 				self.method = GCFCalculator(num1, num2)
 			case 5:
 				try: num1 = float(input('First Number: '))
-				except: raise ValueError('Not a Number')
+				except ValueError: raise ValueError('Not a Number')
 				try: num2 = float(input('Second Number: '))
-				except: raise ValueError('Not a Number') 
+				except ValueError: raise ValueError('Not a Number') 
 				
 				self.method = LCMCalculator(num1, num2)
 			case 6:
 				try: self.rangeStart = float(input('First range number: '))
-				except: raise ValueError('Not a Number')
+				except ValueError: raise ValueError('Not a Number')
 				try: self.rangeEnd = float(input('Second range number: '))
-				except: raise ValueError('Not a Number')
+				except ValueError: raise ValueError('Not a Number')
 
 				self.method = RandomNumberGenerator(self.rangeStart, self.rangeEnd)
 			case 7:
@@ -370,9 +460,8 @@ class ChoiceMenu:
 				if toSolveFor == 'b': self.method = PythagoreanTheoremCalculator(a, c, toSolveFor)
 				if toSolveFor == 'c': self.method = PythagoreanTheoremCalculator(a, b, toSolveFor)
 
-			case 8:
-				self.method = ArithmeticSequenceUtils()
-			case 9: sys.exit()
+			case 8: self.method = ArithmeticSequenceUtils()
+			case 9: self.method = GeometricSequenceUtils()
 			case _: raise ValueError('Invalid Option')
 	
 	def postCalculation(self):
@@ -387,4 +476,5 @@ class ChoiceMenu:
 		input()
 		print(lineclr())
 
-ChoiceMenu()
+if __name__ == '__main__':
+	ChoiceMenu()
