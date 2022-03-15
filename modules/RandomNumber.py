@@ -1,5 +1,5 @@
 import random
-from modules.Console import console
+from modules.utils.Console import console
 
 class RandomNumber:
 	def __init__(self, rangeStart: int, rangeEnd: int):
@@ -10,5 +10,5 @@ class RandomNumber:
 	def getRandom(self):
 		self.random = random.randint(self.rangeStart, self.rangeEnd)	
 
-	def output(self):
-		return f'Answer: {self.random}'
+	def output(self, returnType='string'):
+		return self.method.output(returnType)

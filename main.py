@@ -1,4 +1,5 @@
 import sys
+from modules.utils.Console import console
 
 if sys.version_info[0] < 3: raise EnvironmentError('Needs Python 3.10+')
 if sys.version_info[0] >=3 and sys.version_info[1] < 10: raise EnvironmentError('Needs Python 3.10+ (Program uses match/case)')
@@ -6,14 +7,15 @@ if sys.version_info[0] >=3 and sys.version_info[1] < 10: raise EnvironmentError(
 # Imports
 from modules.ArithmeticSQ import ArithmeticSQ
 from modules.AverageCalculator import AverageCalculator
-from modules.Console import console
 from modules.FourFunction import FourFunction
 from modules.GCF import GCF
+from modules.GeometricSQ import GeometricSQ
 from modules.LCM import LCM
 from modules.PythagoreanTheorem import PythagoreanTheorem
 from modules.RandomNumber import RandomNumber
 from modules.SquareRootSimplifier import SquareRootSimplifier
 
+from modules.inputs.TwoNumbers import TwoNumberInput as tn
 
 class ChoiceMenu:
 	def __init__(self):
@@ -88,30 +90,15 @@ class ChoiceMenu:
 
 			case 3: self.method = FourFunction(input('Input math using +, -, *, /, and ** for exponents. '))
 			case 4:
-				try: num1 = int(input('First Number: '))
-				except ValueError: raise ValueError('Not a Number')
-				
-				try: num2 = int(input('Second Number: '))
-				except ValueError: raise ValueError('Not a Number')  
-				
+				num1, num2 = tn()
 				self.method = GCF(num1, num2)
 			
 			case 5:
-				try: num1 = int(input('First Number: '))
-				except ValueError: raise ValueError('Not a Number')
-				
-				try: num2 = int(input('Second Number: '))
-				except ValueError: raise ValueError('Not a Number') 
-				
+				num1, num2 = tn()				
 				self.method = LCM(num1, num2)
 
 			case 6:
-				try: num1 = int(input('First Number: '))
-				except ValueError: raise ValueError('Not a Number')
-				
-				try: num2 = int(input('Second Number: '))
-				except ValueError: raise ValueError('Not a Number') 
-
+				num1, num2 = tn()
 				self.method = RandomNumber(num1, num2)
 
 			case 7:
@@ -122,7 +109,7 @@ class ChoiceMenu:
 				if toSolveFor != 'a': a = float(input('a = '))
 				if toSolveFor != 'b': b = float(input('b = '))
 				if toSolveFor != 'c': c = float(input('c = '))
-				if 	(
+				if	(
 						toSolveFor not in ['b', 'c'] and 
 						(b > c)
 					) or (

@@ -1,5 +1,5 @@
 import math
-from modules.Console import console
+from modules.utils.Console import console
 
 class SquareRootSimplifier:
 	def __init__(self, sqrtInput: str):
@@ -38,5 +38,6 @@ class SquareRootSimplifier:
 				self.squareMath = self.factor*math.sqrt(self.sqrt/i)
 				return
 	
-	def output(self):
-		return f'Answer: {int(self.factor)}*sqrt({int(self.squareOut)}) or {self.squareMath}'
+	def output(self, returnType='string'):
+		if returnType == 'string': return f'Answer: {int(self.factor)}*sqrt({int(self.squareOut)}) or {self.squareMath}'
+		else: return f'{int(self.factor)}*sqrt({int(self.squareOut)})'

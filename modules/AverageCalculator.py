@@ -1,4 +1,4 @@
-from modules.Console import console
+from modules.utils.Console import console
 
 class AverageCalculator:
 	def __init__(self, to_avg: list):
@@ -7,8 +7,9 @@ class AverageCalculator:
 		self.output()
 	
 	def calculateInputs(self):
-		self.total = sum(self.to_avg)
-		self.total /= len(self.to_avg)
+		self.answer = sum(self.to_avg)
+		self.answer /= len(self.to_avg)
 	
-	def output(self):
-		return f'Answer: {self.total}'
+	def output(self, returnType='string'):
+		if returnType == 'string': return f'Answer: {self.answer}'
+		else: return self.answer

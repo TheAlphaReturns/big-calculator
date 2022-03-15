@@ -1,5 +1,5 @@
 import math
-from modules.Console import console
+from modules.utils.Console import console
 
 class LCM:
 	def __init__(self, num1: int, num2: int):
@@ -8,7 +8,8 @@ class LCM:
 		self.calculateLCM()
 
 	def calculateLCM(self):
-		self.lcm = math.lcm(self.num1, self.num2)
+		self.answer = math.lcm(self.num1, self.num2)
 	
-	def output(self):
-		return f'Answer: {self.lcm}'
+	def output(self, returnType='string'):
+		if returnType == 'string': return f'Answer: {self.answer}'
+		else: return self.answer

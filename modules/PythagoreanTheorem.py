@@ -1,5 +1,6 @@
 import math
-from modules.Console import console
+from modules.utils.Console import console
+from modules.SquareRootSimplifier import SquareRootSimplifier
 
 class PythagoreanTheorem:
 	def __init__(self, var1: float, var2: float, toSolveFor: str):
@@ -20,10 +21,18 @@ class PythagoreanTheorem:
 			self.b = var2
 
 	def calculateABC(self):
-		if self.toSolveFor == 'a': self.ans = math.sqrt(self.c**2-self.b**2)
-		if self.toSolveFor == 'b': self.ans = math.sqrt(self.c**2-self.a**2)
-		if self.toSolveFor == 'c': self.ans = math.sqrt(self.a**2+self.b**2)
-
+		if self.toSolveFor == 'a': 
+			self.answer = math.sqrt(self.c**2-self.b**2)
+			self.answerSimplified = SquareRootSimplifier(f'sqrt({self.c**2-self.b**2})')
+			
+		if self.toSolveFor == 'b': 
+			self.answer = math.sqrt(self.c**2-self.a**2)
+			self.answerSimplified = SquareRootSimplifier(f'sqrt({self.c**2-self.a**2})')
+			
+		if self.toSolveFor == 'c': 
+			self.answer = math.sqrt(self.a**2+self.b**2)
+			self.answerSimplified = SquareRootSimplifier(f'sqrt({self.a**2+self.b**2})')
+			
 		self.infoOut = ''
 		match self.toSolveFor:
 			case 'a': 
@@ -41,5 +50,6 @@ class PythagoreanTheorem:
 				self.infoOut += f'b² = {self.b**2} \n'
 				self.infoOut += f'a² + b² = {self.a**2+self.b**2}'
 
-	def output(self):
-		return f'{self.infoOut}{console.endl}{console.endl}Answer: {self.ans}'
+	def output(self, returnType='string'):
+		if returnType == 'string': return f'{self.infoOut}{console.endl}{console.endl}Answer: {self.answer} or {self.answerSimplified.output(returnType="bare")}'
+		else: return self.answer
