@@ -16,8 +16,9 @@ from modules.RandomNumber import RandomNumber
 from modules.SquareRootSimplifier import SquareRootSimplifier
 
 from modules.inputs.TwoNumbers import TwoNumberInput as tn
+from modules.error.err import NaNError, InvalidOptionError, Error
 
-class ChoiceMenu:
+class Menu:
 	def __init__(self):
 		while True:
 			self.listOptions()
@@ -44,13 +45,14 @@ class ChoiceMenu:
 
 	def getChoice(self):
 		self.choice = input()
+		
 		try: self.choice = int(self.choice)
 		except ValueError:
 			if self.choice.lower() in ['q', 'quit']:
 				console.clear()
 				sys.exit()
 			else:
-				raise ValueError('Not a number')
+				raise NaNError(self.choice) from None
 	
 	def evaluateChoice(self):
 		console.clear()
@@ -82,7 +84,7 @@ class ChoiceMenu:
 						break
 					
 					try: number = float(number)
-					except ValueError: raise ValueError('Not a Number')
+					except ValueError: raise NaNError(number) from None
 
 					to_avg.append(number)
 				
@@ -104,7 +106,7 @@ class ChoiceMenu:
 			case 7:
 				console.print('a² + b² = c²')
 				toSolveFor = input('Solve for: ')
-				if toSolveFor not in ['a', 'b', 'c']: raise ValueError('Not a, b, or c')
+				if toSolveFor not in ['a', 'b', 'c']: raise InvalidOptionError(toSolveFor)
 
 				if toSolveFor != 'a': a = float(input('a = '))
 				if toSolveFor != 'b': b = float(input('b = '))
@@ -115,7 +117,7 @@ class ChoiceMenu:
 					) or (
 						toSolveFor not in ['a', 'c'] and 
 						(a > c)
-					): raise ValueError('"c" is not the greatest value')
+					): raise Error('"c" is not the greatest value')
 				
 				if toSolveFor == 'a': self.method = PythagoreanTheorem(b, c, toSolveFor)
 				if toSolveFor == 'b': self.method = PythagoreanTheorem(a, c, toSolveFor)
@@ -123,7 +125,7 @@ class ChoiceMenu:
 
 			case 8: self.method = ArithmeticSQ()
 			case 9: self.method = GeometricSQ()
-			case _: raise ValueError('Invalid Option')
+			case _: raise InvalidOptionError(self.choice)
 	
 	def postCalculation(self):
 		console.clear()
@@ -138,4 +140,4 @@ class ChoiceMenu:
 		console.clear()
 
 if __name__ == '__main__':
-	ChoiceMenu()
+	Menu()

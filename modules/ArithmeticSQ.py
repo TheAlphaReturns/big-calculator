@@ -4,6 +4,8 @@ from modules.inputs.SQInput import SQInput
 from modules.sequence.CalculateIndex import CalculateIndex
 from modules.sequence.CommonX import CommonX
 
+from modules.error.err import InvalidOptionError
+
 class ArithmeticSQ:
 	def __init__(self):
 		self.input = SQInput.choice()
@@ -23,7 +25,7 @@ class ArithmeticSQ:
 				solve, index1, cd = SQInput.index()
 				self.method = CalculateIndex('a', solve, index1, cd)
 			
-			case _: raise ValueError('Invalid Input')
+			case _: raise InvalidOptionError(self.input)
 
 	def output(self, returnType='string'):
 		return self.method.output(returnType)

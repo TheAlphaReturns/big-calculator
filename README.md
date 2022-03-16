@@ -1,5 +1,6 @@
 # Big Calculator
-Its a big calculator
+Big as in many functions and relatively large file size.
+Only uses the builtin `math` module.
 
 - Maintainer: Angad Tendulkar <angad.tendulkar@gmail.com>
 - Status: Working
@@ -10,7 +11,13 @@ Its a big calculator
 - `python main.py`
 
 ## Requirements
-This program needs Python 3.10+ as it uses the new `match`/`case` switcher. If you plan to fork it to remove the match-case and give support to older Python versions, note that this program also uses `math.lcm()` which is only available on Python 3.9+.
+This program needs Python 3.10+ as it uses the new `match`/`case` switcher. 
+If you plan to fork it to give support to older Python versions, 
+note that this program also uses `math.lcm()` which is only available on Python 3.9+.
 
-## Module
-This program is not available in pip, but if you would like, you can import anything in `modules/` for your own use. Importing `main.py` automatically imports all of the modules, and doesn't run the main menu (`__name__ == 'main'` thing)
+## Use as a module
+This program is not available in pip, 
+but if you would like, 
+you can import anything in `modules/` for your own use. 
+Importing `main.py` automatically imports all of the modules, 
+and won't run the main menu (`__name__ == 'main'` thing)

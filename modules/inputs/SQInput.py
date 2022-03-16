@@ -1,4 +1,5 @@
 from modules.utils.Console import console
+from modules.error.err import NaNError
 
 class SQInput:
 	def choice():
@@ -11,7 +12,7 @@ class SQInput:
 		console.linebreak(end='')
 
 		try: option = int(input())
-		except ValueError: raise ValueError('Not a Number')
+		except ValueError: raise NaNError() from None
 
 		return option
 

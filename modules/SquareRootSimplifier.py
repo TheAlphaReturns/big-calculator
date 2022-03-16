@@ -1,6 +1,8 @@
 import math
 from modules.utils.Console import console
 
+from modules.error.err import InvalidOptionError
+
 class SquareRootSimplifier:
 	def __init__(self, sqrtInput: str):
 		self.sqrtInput = sqrtInput
@@ -20,8 +22,7 @@ class SquareRootSimplifier:
 			
 			self.sqrt = float(self.sqrt)
 			self.factor = float(self.factor)
-		except (IndexError, ValueError):
-			raise ValueError('Invalid Usage')
+		except (IndexError, ValueError): raise InvalidOptionError(self.sqrtInput) from None
 
 	def getSquares(self, limit: float):
 		self.squares = []
