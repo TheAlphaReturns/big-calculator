@@ -50,6 +50,8 @@ class PythagoreanTheorem:
 				self.infoOut += f'b² = {self.b**2} \n'
 				self.infoOut += f'a² + b² = {self.a**2+self.b**2}'
 
-	def output(self, returnType='string'):
-		if returnType == 'string': return f'{self.infoOut}{console.endl}{console.endl}Answer: {self.answer} or {self.answerSimplified.output(returnType="bare")}'
-		else: return self.answer
+	def output(self, returns = 'formatted'):
+		if returns == 'formatted': return f'{self.infoOut}{console.endl}{console.endl}Answer: {self.answer} or {self.answerSimplified.output(returns="bare")}'
+		elif returns == 'bare': return self.answer
+
+		return None

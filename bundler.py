@@ -1,57 +1,81 @@
 import os
 
+inFileName = './main.py'
+outFileName = './calc.bundle.py'
+
 try: os.remove("calc.bundle.py")
 except: pass
 
-def writeLinesNotImport(readfile, writefile):
-	for i in readfile.readlines():
-		if True not in [i.startswith(j) for j in ['import', 'from']]:
-			writefile.write(i)
+builtInImports = []
+modules = []
 
+def getModules(string):
+	if string.startswith('from'):
+			string = string[5:]
+	elif string.startswith('import'):
+			string = string[7:]
+	else:
+			string = ''
 
-with open('calc.bundle.py', 'a+') as bundle:
-	bundle.write('#!/usr/bin/env python3\n')
-	bundle.write('import sys, math, random\n')
+	return string
 
-	# import console
-	with open('modules/utils/Console.py', 'r') as console:
-		bundle.write(console.read())
+def addToTree(fileName):
+	with open(fileName, 'r') as file:
+		for i in file.readlines():
+			i = getModules(i)
 
+			if i.startswith('modules'):
+				modules.append(f'./{"/".join(i.split(" ")[0].split("."))}.py')
+			elif i != '':
+				builtInImports.append(i.split('\n')[0])
 
-	# import errors
-	with open('modules/error/err.py', 'r') as errFile:
-		writeLinesNotImport(errFile, bundle)
+def removeArrayDuplicates(array):
+	array.reverse()
+	included = []
 
+	for i in array:
+		if i not in included:
+			included.append(i)
 
-	# import inputs
-	for inputFile in os.listdir('modules/inputs'):
-		inputFile = os.path.join('modules/inputs', inputFile)
+	included.reverse()
+	return included
+
+def copyFile(inFileObj, outFileObj):
+	for i in inFileObj.readlines():
 		
-		if inputFile.endswith('.py') and inputFile != 'modules/inputs/__init__.py':
-			with open(inputFile, 'r') as inputFileObj:
-				for i in inputFileObj.readlines():					
-					if True not in [i.startswith(j) for j in ['import', 'from']]:
-						if 'TwoNumberInput()' in i:
-							bundle.write('def tn():\n')
-						else: 
-							bundle.write(i)
+		if i.startswith('import'): i = ''
+		elif i.startswith('from') and 'import' in i: i = ''
+		elif i.strip() in ['', '\n']: i = ''
+		elif i == '\n': i = ''
+
+		if i != i.split('#', 1)[0]:
+			i = f'{i.split("#", 1)[0]}\n'
+
+		if i != '':
+			outFileObj.write(f'{i}')
+
+	outFileObj.write('\n')
+
+addToTree(inFileName)
+
+while True:
+	sizeOfModules = len(modules)
+
+	for i in modules:
+		addToTree(i)
+
+	modules = removeArrayDuplicates(modules)
+	builtInImports = removeArrayDuplicates(builtInImports)
+
+	if len(modules) <= sizeOfModules:
+		modules.reverse()
+		break
+
+with open(outFileName, 'a+') as bundle:
+	for i in builtInImports:
+		bundle.write(f'import {i}\n')
 	
-	# import sequence utils
-	for sqFile in os.listdir('modules/sequence'):
-		sqFile = os.path.join('modules/sequence', sqFile)
-		
-		if sqFile.endswith('.py') and sqFile != 'modules/sequence/__init__.py':
-			with open(sqFile, 'r') as sqFileObj:
-				writeLinesNotImport(sqFileObj, bundle)
-
-	# import calculators
-	for calcFile in os.listdir('modules'):
-		calcFile = os.path.join('modules', calcFile)
-		
-		if calcFile.endswith('.py') and calcFile != 'modules/__init__.py':
-			with open(calcFile, 'r') as calcFileObj:
-				writeLinesNotImport(calcFileObj, bundle)
-
-	# import main.py
-	with open('main.py', 'r') as main:
-		writeLinesNotImport(main, bundle)
+	for i in modules:
+		copyFile(open(i, 'r'), bundle)
+	
+	copyFile(open(inFileName, 'r'), bundle)

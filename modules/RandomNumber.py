@@ -10,5 +10,8 @@ class RandomNumber:
 	def getRandom(self):
 		self.random = random.randint(self.rangeStart, self.rangeEnd)	
 
-	def output(self, returnType='string'):
-		return self.method.output(returnType)
+	def output(self, returns='formatted'):
+		if returns == 'formatted': return f'Answer: {self.random}'
+		elif returns == 'bare': return self.random
+
+		return None

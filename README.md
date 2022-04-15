@@ -36,7 +36,15 @@ for use in (e.g.) Ti-84 Python Edition.
 Wouldn't recommend editing the bundled file directly,
 its very messy and without proper newlines.
 
-It works by removing all `import` and `from ... import` statements,
-then copying all the files into `calc.bundle.py`
-in the order of the dependency tree
-(`Console.py` on top, and so on)
+It is mostly made to work with any project -- just
+use `__init__.py`'s to import files from
+other directories, and don't use `as` when
+importing.
+
+## Special thanks
+
+- [@pg_4919](https://github.com/pg-4919) for the add/mult algorithm (seen in `modules/fectoring/aeq1.py class aeq1.getAddMult()`)
+
+## License
+
+GPL v3

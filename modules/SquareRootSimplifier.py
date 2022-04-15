@@ -39,6 +39,8 @@ class SquareRootSimplifier:
 				self.squareMath = self.factor*math.sqrt(self.sqrt/i)
 				return
 	
-	def output(self, returnType='string'):
-		if returnType == 'string': return f'Answer: {int(self.factor)}*sqrt({int(self.squareOut)}) or {self.squareMath}'
-		else: return f'{int(self.factor)}*sqrt({int(self.squareOut)})'
+	def output(self, returns = 'formatted'):
+		if returns == 'formatted': return f'Answer: {int(self.factor)}*sqrt({int(self.squareOut)}) or {self.squareMath}'
+		elif returns == 'bare': return f'{int(self.factor)}*sqrt({int(self.squareOut)})'
+
+		return None

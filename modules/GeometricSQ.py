@@ -27,5 +27,5 @@ class GeometricSQ:
 			case _: raise InvalidOptionError(self.input)
 
 
-	def output(self, returnType='string'):
-		return self.method.output(returnType)
+	def output(self, returns = 'formatted'):
+		return self.method.output(returns)

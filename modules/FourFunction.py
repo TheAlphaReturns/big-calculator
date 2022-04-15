@@ -11,6 +11,8 @@ class FourFunction:
 		try: self.answer = eval(self.solve)
 		except SyntaxError: raise InvalidOptionError(self.solve) from None
 
-	def output(self, returnType='string'):
-		if returnType == 'string': return f'Answer: {self.answer}'
-		else: return self.answer
+	def output(self, returns='formatted'):
+		if returns == 'formatted': return f'Answer: {self.answer}'
+		elif returns == 'bare': return self.answer
+
+		return None

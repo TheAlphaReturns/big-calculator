@@ -9,7 +9,6 @@ from modules.error.err import InvalidOptionError
 class ArithmeticSQ:
 	def __init__(self):
 		self.input = SQInput.choice()
-		
 		self.evaluateInput()
 	
 	def evaluateInput(self):
@@ -27,5 +26,5 @@ class ArithmeticSQ:
 			
 			case _: raise InvalidOptionError(self.input)
 
-	def output(self, returnType='string'):
-		return self.method.output(returnType)
+	def output(self, returns='formatted'):
+		return self.method.output(returns)

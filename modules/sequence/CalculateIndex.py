@@ -14,6 +14,8 @@ class CalculateIndex:
 			case 'a': self.answer = self.index1 + (self.index - 1) * self.cx
 			case 'g': self.answer = self.index1 * (self.cx ** (self.index - 1))
 		
-	def output(self, returnType='string'):
-		if returnType == 'string': return f'Answer: {self.answer}'
-		else: return self.answer
+	def output(self, returns='formatted'):
+		if returns == 'formatted': return f'Answer: {self.answer}'
+		elif returns == 'bare': return self.answer
+
+		return None

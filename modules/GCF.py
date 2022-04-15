@@ -11,6 +11,8 @@ class GCF:
 	def calculateGCF(self):
 		self.answer = math.gcd(self.num1, self.num2)
 
-	def output(self, returnType='string'):
-		if returnType == 'string': return f'Answer: {self.answer}'
-		else: return self.answer
+	def output(self, returns='formatted'):
+		if returns == 'formatted': return f'Answer: {self.answer}'
+		elif returns == 'bare': return self.answer
+
+		return None

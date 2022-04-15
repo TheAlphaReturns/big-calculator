@@ -10,6 +10,8 @@ class AverageCalculator:
 		self.answer = sum(self.to_avg)
 		self.answer /= len(self.to_avg)
 	
-	def output(self, returnType='string'):
-		if returnType == 'string': return f'Answer: {self.answer}'
-		else: return self.answer
+	def output(self, returns='formatted'):
+		if returns == 'formatted': return f'Answer: {self.answer}'
+		elif returns == 'bare': return self.answer
+
+		return None

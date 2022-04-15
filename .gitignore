@@ -155,4 +155,5 @@ cython_debug/
 replit.nix
 
 # bundle
-calc.bundle.py
+calc.bundle.*
+builder.py
