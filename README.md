@@ -3,7 +3,7 @@
 Big as in many functions and relatively large file size.
 Only uses the builtin `math` module.
 
-- Maintainer: Angad Tendulkar <angad.tendulkar@gmail.com>
+- Maintainer: TheAlphaReturns
 - Status: Working
 
 ## Running
